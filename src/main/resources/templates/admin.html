@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>ADMIN</title>
+    <link th:href="@{'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'}" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script th:src="@{'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js'}"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles&family=Roboto+Condensed:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            font-family: 'Fuzzy Bubbles', cursive;
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+
+    </style>
+
+</head>
+<body>
+<header th:insert="header/header :: header"></header>
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="buttons" style="display: flex;">
+        <a class="btn btn-primary" th:href="@{'/addShoes'}" style="margin-right: 20px">Add Shoes</a>
+        <a class="btn btn-primary" th:href="@{'/addCategory'}" style="margin-right: 20px">Add Category</a>
+    </div>
+    <br>
+    <form th:action="@{'addItem'}" method="post">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-category" >Category</span>
+            <select name="item-category" class="form-select" aria-label="Default select example">
+                <option th:each="category:${allCategory}" th:text="${category.category}" th:value="${category.id}"></option>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-brand" >Brand</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="item-brand">
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-gender" >Gender</span>
+            <select  class="form-select" aria-label="Default select example" name="item-gender">
+                <option th:text="${gender.gender}" th:each="gender:${allGenders}" th:value="${gender.id}"></option>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-imagine">Imagine URL</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="item-img">
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-name" >Name</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="item-name">
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-price" >Price</span>
+            <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="item-price">
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-quantity" >Quantity</span>
+            <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="item-quantity">
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-size" >Size</span>
+            <select  class="form-select" aria-label="Default select example" name="item-size">
+                <option th:text="${size.size}" th:each="size:${allSize}" th:value="${size.id}"></option>
+            </select>
+        </div>
+
+<!--        <div class="input-group mb-3">-->
+<!--            <span class="input-group-text" id="inputGroup-sizing-quantities" >Quantity</span>-->
+<!--            <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="item-quantities">-->
+<!--        </div>-->
+
+        <div>
+            <button type="submit" class="btn btn-primary">Add Item</button>
+        </div>
+    </form>
+
+</div>
+<div class="container">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Category</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Name</th>
+            <th scope="col">Size</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Details</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="it:${tovary}">
+            <td th:text="${it.id}"></td>
+            <td th:text="${it.brand}"></td>
+            <td th:text="${it.itemsCategory.category}"></td>
+            <td th:text="${it.gender.gender}"></td>
+            <td th:text="${it.name}"></td>
+            <td th:text="${it.sizes.size}"></td>
+            <td th:text="${it.quantity}"></td>
+            <td th:text="${it.price}"></td>
+            <td><a class="btn btn-info" th:href="@{'/details/'+${it.id}}">Details</a></td>
+            <td><a class="btn btn-danger" th:href="@{'/deleteItems/'+${it.id}}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:insert="footer/footer::footer"></footer>
+
+</body>
+</html>
